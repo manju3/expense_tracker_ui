@@ -1,0 +1,95 @@
+<v-layout wrap>
+    <v-flex xs12>
+        <v-card class="elevation-5">
+            <v-card-text>
+                <v-layout wrap>
+                    <v-flex xs6>
+                        <v-progress-circular rotate="270" :value="currentExpenses.value" :size="150" width="20"
+                            color="primary">
+                            <p class="mb-0 text-center">Expenses</p>
+                            <p class="mb-0 text-center">{{currentExpenses.text}}</p>
+                        </v-progress-circular>
+                    </v-flex>
+                    <v-flex xs6 class="pt-4">
+                        <p class="my-4 text-center headline">Total</p>
+                        <p class="my-4 text-center display-1">&#8377 {{currentExpenses.total}}</p>
+                    </v-flex>
+                </v-layout>
+            </v-card-text>
+        </v-card>
+    </v-flex>
+    <v-flex xs12 class="mt-2">
+        <v-toolbar color="white" class="elevation-5">
+            <v-tabs v-model="tab" background-color="white" centered grow slider-color="primary">
+                <v-tab href="#today">
+                    Today
+                </v-tab>
+                <v-tab href="#month">
+                    This Month
+                </v-tab>
+            </v-tabs>
+        </v-toolbar>
+
+        <v-tabs-items v-model="tab" class="mt-4 transparent">
+            <v-tab-item value="today">
+                <div v-for="(item, index) in todayExpenses" :key="index" class="mb-1">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-layout wrap>
+                                <v-flex xs8>
+                                    <span class="title">{{item.expenseName}}</span>
+                                </v-flex>
+                                <v-flex x4>
+                                    <p class="mb-0 title text-right">&#8377 {{item.amount}}</p>
+                                </v-flex>
+                                <v-flex xs12>
+                                    <span>{{item.date}}</span>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                    </v-card>
+                </div>
+            </v-tab-item>
+            <v-tab-item value="month">
+                <div v-for="(item, index) in todayExpenses" :key="index" class="mb-1">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-layout wrap>
+                                <v-flex xs6>
+                                    <span class="title">{{item.expenseName}}</span>
+                                </v-flex>
+                                <v-flex xs6>
+                                    <p class="mb-0 title text-right">&#8377 {{item.amount}}</p>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                    </v-card>
+                </div>
+            </v-tab-item>
+        </v-tabs-items>
+    </v-flex>
+    <v-flex xs12>
+        <v-btn fixed small dark fab bottom right color="pink" @click="dialog= true">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+    </v-flex>
+
+    <template>
+        <v-dialog v-model="dialog" persistent :overlay="false" max-width="500px" transition="dialog-transition">
+            <v-card>
+                <v-card-title primary-title>
+                    <p>Add new expense</p>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="dialog=false" icon>
+                        <v-icon color="primary">mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-text>
+                    <v-select :items="[]" label="Select category"></v-select>
+                    <v-text-field name="name" label="Expense name" id="id"></v-text-field>
+                    <v-text-field name="name" label="Enter amount" id="id"></v-text-field>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+    </template>
+</v-layout>
